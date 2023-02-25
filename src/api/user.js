@@ -18,7 +18,7 @@ export function getUserFileList(params){
 
 // 创建文件夹
 export function makeCreateDir(params){
-    return http.post(`${resquest}/user/dir/create`,params)
+    return http.post(`${resquest}/user/folder/create`,params)
 }
 //用户文件关联
 export function userFileLink(params){

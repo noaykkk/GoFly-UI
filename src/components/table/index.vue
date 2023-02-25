@@ -46,6 +46,7 @@
 <script>
 import {getFileType} from "@/utils/file_type";
 import {deleteFile} from "@/api/user";
+import {Axios} from "axios";
 
 export default {
   //过滤器
@@ -119,7 +120,7 @@ export default {
       this.changeBlob(e.path).then(res => {
         this.saveAs(res, e.name)
       })
-
+      // window.open(e.path, '_blank')
     },
     //移动
     moved(e) {
@@ -136,7 +137,7 @@ export default {
         type: 'warning'
       }).then(() => {
         deleteFile({identity: e.identity}).then(res => {
-          if (res.data.code === 200) {
+          if (res.status === 200) {
             if (e.ext === "") {
               this.$emit("change-go-back")
             } else {

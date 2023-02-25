@@ -1,7 +1,7 @@
 //视频
 const videos = ".mp4,"
 // 文档
-const doc = ".doc,.md,.txt,.docx"
+const doc = ".doc,.md,.txt,.docx,.pdf"
 //图片
 const image = ".jpg,.jpeg,.png,.gif"
 

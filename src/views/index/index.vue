@@ -28,27 +28,27 @@
         <el-tab-pane name="all" label="all">
           <span slot="label"><i class="el-icon-folder-opened"></i> 全部</span>
           <table-data @change-page="getPageFun" @change-dir="changeDir" @change-list="getUserFileList"
-                      @change-go-back="goBack" :fileList="fileList" :count="pageCount"
+                      @change-go-back="goBack" :fileList="fileList" :count="fileCount"
                       :size="queryParam.size"></table-data>
         </el-tab-pane>
         <el-tab-pane name="image" label="images">
           <span slot="label"><i class="el-icon-picture"></i> 图片</span>
-          <table-data @change-page="getPageFun" :fileList="fileList" @change-list="getUserFileList" :count="pageCount"
+          <table-data @change-page="getPageFun" :fileList="fileList" @change-list="getUserFileList" :count="fileCount"
                       :size="queryParam.size"></table-data>
         </el-tab-pane>
         <el-tab-pane name="doc" label="doc">
           <span slot="label"><i class="el-icon-document"></i> 文档</span>
-          <table-data @change-page="getPageFun" :fileList="fileList" @change-list="getUserFileList" :count="pageCount"
+          <table-data @change-page="getPageFun" :fileList="fileList" @change-list="getUserFileList" :count="fileCount"
                       :size="queryParam.size"></table-data>
         </el-tab-pane>
         <el-tab-pane name="videos" label="videos">
           <span slot="label"><i class="el-icon-video-play"></i> 视频</span>
-          <table-data @change-page="getPageFun" :fileList="fileList" @change-list="getUserFileList" :count="pageCount"
+          <table-data @change-page="getPageFun" :fileList="fileList" @change-list="getUserFileList" :count="fileCount"
                       :size="queryParam.size"></table-data>
         </el-tab-pane>
         <el-tab-pane name="other" label="other">
           <span slot="label"><i class="el-icon-more"></i> 其他</span>
-          <table-data @change-page="getPageFun" :fileList="fileList" @change-list="getUserFileList" :count="pageCount"
+          <table-data @change-page="getPageFun" :fileList="fileList" @change-list="getUserFileList" :count="fileCount"
                       :size="queryParam.size"></table-data>
         </el-tab-pane>
       </el-tabs>
@@ -60,7 +60,7 @@
         :before-close="closeDialog">
       <el-upload
           drag
-          :show-file-list="false"
+          :show-file-list="true"
           :limit="10"
           :auto-upload="true"
           action=""
@@ -69,7 +69,7 @@
         <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
         <div class="el-upload__tip" slot="tip">一次最多只能上传10个文件</div>
       </el-upload>
-
+<!--      <img src="../../assets/file.png" alt="" width="150" height="150">-->
       <span slot="footer" class="dialog-footer">
     <el-button @click="uploadDialog = false">取 消</el-button>
     <el-button type="primary" @click="submitUpload">确 定</el-button>
@@ -195,7 +195,8 @@ export default {
     },
     //获取子组件传递的文件夹变更数据
     changeDir(e) {
-      this.perObj = e
+      this.perObj.name = e.name
+      this.perObj.parentId = this.queryParam.id
       this.queryParam.id = e.id
       this.queryParam.size = 10
       this.queryParam.page = 1
@@ -218,7 +219,7 @@ export default {
         this.perObj = {}
       } else {
         getUserById({id: this.perObj.parentId}).then(res => {
-          this.perObj = res.data.data
+          this.perObj = res.data
         })
       }
     },
@@ -251,7 +252,7 @@ export default {
     //新建文件夹
     makeDir() {
       let param = {
-        parentId: this.queryParam.id,
+        parent_id: this.queryParam.id,
         name: ""
       }
       this.$prompt('请输入文件夹名称', '提示', {
