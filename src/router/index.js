@@ -8,7 +8,7 @@ Vue.use(VueRouter)
 import Login from '@/views/login/index';
 import Index from '@/views/index/index';
 
-const title = "水牛网盘-"
+const title = "网盘-"
 //定义routes路由的集合，数组类型
 const routes = [
     //单个路由均为对象类型，path代表的是路径，component代表组件

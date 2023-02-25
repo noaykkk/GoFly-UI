@@ -84,6 +84,7 @@ import axios from 'axios'
 import TableData from "@/components/table/index"
 import {getUserById, getUserFileList, makeCreateDir, userDetail,userFileLink} from "@/api/user"
 import router from "@/router";
+import {Message} from "element-ui";
 
 var token = localStorage.getItem('token')
 require('dayjs/locale/zh-cn')
@@ -101,7 +102,7 @@ export default {
         userName: ""
       },
       handerContent: "",
-      pageCount: 0,
+      fileCount: 0,
       queryParam: {
         type: "all",
         id: 0,
@@ -117,8 +118,9 @@ export default {
           identity: "",
           name: "",
           path: "",
-          repositoryIdentity: "",
+          repository_identity: "",
           message: "",
+          size: 0
         }
       ]
     }
@@ -130,15 +132,13 @@ export default {
         parentId: 0,
         repositoryIdentity: "",
         ext: "",
-        name: "",
-        type: ""
+        name: ""
       }
       for (const file of this.uploadFileList) {
         param.parentId = this.queryParam.id
         param.repositoryIdentity = file.identity
         param.ext = file.ext
         param.name = file.name
-        param.type = file.type
         userFileLink(param).then(res=>{
           this.getUserFileList()
         })
@@ -159,25 +159,32 @@ export default {
           'Authorization': localStorage.getItem("token")
         }
       }).then(res => {
-        if (res.data.code === 200) {
-          this.uploadFileList.push(res.data.data)
+        if (res.status === 200) {
+          this.uploadFileList.push(res.data)
         }
       })
     },
     //获取用户数据
     getUserInfo() {
-      userDetail().then(res => {
-        if (res.data.code === 200) {
-          localStorage.setItem("user", res.data.data)
-          this.userInfo = res.data.data
+      userDetail({
+        userIdentity: localStorage.getItem("identity")
+      }).then(res => {
+        if (res.status === 200) {
+          localStorage.setItem("user", res.data.name)
+          this.userInfo.userName = res.data.name
         }
+        else{
+          Message.error(res.statusText)
+        }
+      }).catch((error)=>{
+        console.log(error.response) //获取服务器异常时的返回的响应数据
       })
     },
     //获取用户文件列表
     getUserFileList() {
       getUserFileList(this.queryParam).then(res => {
-        this.fileList = res.data.data.list
-        this.pageCount = res.data.data.count
+        this.fileList = res.data.list
+        this.fileCount = res.data.count
       })
     },
 

@@ -5,7 +5,7 @@
         style="width: 100%">
       <el-table-column
           prop="name"
-          width="260"
+          width="1000"
       >
         <template slot-scope="scope">
           <span v-if="scope.row.ext">{{ scope.row.name }}</span>
@@ -14,14 +14,14 @@
       </el-table-column>
       <el-table-column
           label="类型"
-          width="180">
+          width="280">
         <template slot-scope="scope">
           <span>{{ scope.row.ext|getFileType }}</span>
         </template>
       </el-table-column>
       <el-table-column
           label="操作"
-          width="200">
+          width="400">
         <template slot-scope="scope">
           <el-button v-if="scope.row.ext" @click="downloadFile(scope.row)" type="text" size="small">下载</el-button>
           <el-button @click="edit(scope.row)" type="text" size="small">修改</el-button>
@@ -64,8 +64,9 @@ export default {
           identity: "",
           name: "",
           path: "",
-          repositoryIdentity: "",
+          repository_identity: "",
           message: "",
+          size: 0
         }]
       }
     },

@@ -224,7 +224,7 @@ export default {
       }
       this.timeTrue = false;
       registerCode({email: this.registerForm.email}).then(res => {
-        if (res.data.code === 200) {
+        if (res.status === 200) {
           this.time = 60;
           let setTimeoutS = setInterval(() => {
             this.time--;
@@ -234,7 +234,7 @@ export default {
             }
           }, 1000);
         } else {
-          Message.error(res.data.message)
+          Message.error(res.statusText)
           this.timeTrue = true;
         }
       })
@@ -261,11 +261,11 @@ export default {
       this.$refs.registerFormRef.validate(async valid => {
         if (!valid) return
         register(this.registerForm).then(res => {
-          if (res.data.code === 200) {
-            Message.success(res.data.message)
+          if (res.status === 200) {
+            Message.success(res.statusText)
             _this.handleClose()
           }else{
-            Message.error(res.data.message)
+            Message.error(res.statusText)
           }
         })
 
@@ -278,13 +278,15 @@ export default {
       this.$refs.loginFormRef.validate(async valid => {
         if (!valid) return // 如果表单校验不通过，就直接返回
         login(this.loginForm).then(res => {
-          if (res.data.code === 200) {
+          console.log(res)
+          if (res.status === 200) {
             //将数据保存
-            localStorage.setItem("token",res.data.data.token)
-            localStorage.setItem("token",res.data.data.refreshToke)
+            localStorage.setItem("token",res.data.token)
+            localStorage.setItem("token",res.data.refresh_token)
+            localStorage.setItem("identity",res.data.identity)
             this.$router.push('/index')
           }else{
-            Message.error(res.data.msg)
+            Message.error(res.statusText)
           }
         })
       })

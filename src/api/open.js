@@ -9,15 +9,15 @@ let resquest = "/api"
 
 //登录
 export function login(params){
-    return http.post(`${resquest}/login`,params)
+    return http.post(`${resquest}/user/login`,params)
 }
 
 // 获取用户数据
 export function registerCode(params){
-    return http.get(`${resquest}/registerCode`,params)
+    return http.get(`${resquest}/mail/code/send`,params)
 }
 
 export function register(params){
-    return http.post(`${resquest}/register`,params)
+    return http.post(`${resquest}/user/register`,params)
 }
 
