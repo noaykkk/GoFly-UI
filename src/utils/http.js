@@ -37,7 +37,8 @@ const http ={
             method: 'delete',
             url:url
         }
-        if(params) config.params = params
+        if(params) config.data = params
+        console.log(config)
         return request(config)
     },
     getSendJson(url,params){

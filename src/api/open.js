@@ -14,7 +14,7 @@ export function login(params){
 
 // 获取用户数据
 export function registerCode(params){
-    return http.get(`${resquest}/mail/code/send`,params)
+    return http.post(`${resquest}/mail/code/send`,params)
 }
 
 export function register(params){
